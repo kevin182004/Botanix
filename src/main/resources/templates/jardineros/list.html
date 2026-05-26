@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Jardineros</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        principal: '#85C88A',
+                        naranja: '#FFD166',
+                        azulClaro: '#CFEAF5',
+                        verde: '#2F7A3E',
+                        oscuro: '#0B3B51'
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body class="bg-gradient-to-br from-[#85C88A] via-[#CFEAF5] to-white min-h-screen">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <div th:replace="fragments/layout :: sidebar('jardineros')"></div>
+
+    <!-- CONTENIDO -->
+    <main class="flex-1 p-6 lg:p-10 overflow-hidden">
+
+        <!-- HEADER -->
+        <section class="page-header">
+
+            <div>
+                <small>Sistema de Gestión</small>
+
+                <h1>
+                    Lista de Jardineros
+                </h1>
+
+                <p>
+                    Gestiona, administra y controla los jardineros registrados en el sistema.
+                </p>
+            </div>
+
+            <div class="buttons">
+
+                <a th:href="@{/view/jardineros/form}"
+                   class="btn-custom btn-principal">
+                    📝 Registrar
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- ALERTA -->
+        <div th:if="${success}"
+             class="alert-success-custom"
+             th:text="${success}">
+        </div>
+
+        <!-- TABLA -->
+        <section class="card-table">
+
+            <!-- HEADER TABLA -->
+            <div class="card-table-header">
+
+                <div>
+                    <h2>
+                        Jardineros Registrados
+                    </h2>
+
+                    <p>
+                        Información general del sistema.
+                    </p>
+                </div>
+
+                <!-- BUSCADOR -->
+                <div class="search-box">
+
+                    <input type="text"
+                           id="searchInput"
+                           placeholder="Buscar jardineros...">
+
+                    <span>🔍</span>
+
+                </div>
+
+            </div>
+
+            <!-- CONTENEDOR -->
+            <div class="table-container">
+
+                <table class="custom-table" id="tablaJardineros">
+
+                    <thead>
+                    <tr>
+                        <th>⚙️</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Documento</th>
+                        <th>Dirección</th>
+                        <th>Rol</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="jardinero : ${jardineros}">
+
+                        <!-- ACCIONES -->
+                        <td>
+
+                            <div class="actions">
+
+                                <!-- EDITAR -->
+                                <a th:href="@{'/view/jardineros/edit/' + ${jardinero.id_jardinero}}"
+                                   class="btn-action btn-edit">
+                                    ✏️
+                                </a>
+
+                                <!-- ELIMINAR -->
+                                <form th:action="@{'/view/jardineros/delete/' + ${jardinero.id_jardinero}}"
+                                      method="post">
+
+                                    <button type="submit"
+                                            class="btn-action btn-delete"
+                                            onclick="return confirm('¿Está seguro que desea eliminar este jardinero?')">
+                                        🗑️
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                        <!-- DATOS -->
+                        <td class="text-id"
+                            th:text="${jardinero.id_jardinero}">
+                        </td>
+
+                        <td th:text="${jardinero.nombre}"></td>
+
+                        <td th:text="${jardinero.documento}"></td>
+
+                        <td th:text="${jardinero.direccion}"></td>
+
+                        <td>
+                            <span class="badge-password"
+                                  th:text="${jardinero.rol}">
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script th:src="@{/js/script.js}"></script>
+
+</body>
+</html>

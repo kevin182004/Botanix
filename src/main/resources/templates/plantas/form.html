@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Planta</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        principal: '#85C88A',
+                        naranja: '#FFD166',
+                        azulClaro: '#CFEAF5',
+                        verde: '#2F7A3E',
+                        oscuro: '#0B3B51'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gradient-to-br from-[#85C88A] via-[#CFEAF5] to-white min-h-screen">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <div th:replace="fragments/layout :: sidebar('usuarios')"></div>
+
+    <!-- CONTENIDO -->
+    <main class="flex-1 p-6 lg:p-10">
+
+        <!-- HEADER -->
+        <section class="page-header">
+
+            <div>
+                <small>Gestión de plantas</small>
+
+                <h1 th:text="${plantas.id_plantas == null} ? 'Registrar planta' : 'Editar planta'">
+                    Registrar Usuario
+                </h1>
+
+                <p>
+                    Completa la información de la planta para registrarla o actualizar sus datos.
+                </p>
+            </div>
+
+            <div class="buttons">
+                <a th:href="@{/view/plantas}" class="btn-custom btn-verde">
+                    ← Volver
+                </a>
+            </div>
+
+        </section>
+
+        <!-- FORMULARIO -->
+        <section class="bg-white rounded-[30px] shadow-xl overflow-hidden">
+
+            <div class="bg-[#0B3B51] px-8 py-6">
+                <h2 class="text-2xl font-bold text-white">
+                    Datos de la planta
+                </h2>
+                <p class="text-[#CFEAF5] mt-1">
+                    Los campos marcados son necesarios para guardar la información.
+                </p>
+            </div>
+
+            <form th:action="@{/view/plantas/save}"
+                  th:object="${plantas}"
+                  method="post"
+                  novalidate
+                  class="p-8">
+
+                <input type="hidden" th:field="*{id_plantas}" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- CODIGO -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            CODIGO
+                        </label>
+                        <input type="text"
+                               th:field="*{codigo}"
+                               required
+                               placeholder="Ingrese el codigo completo"
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                    <!-- Nombre -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            Nombre
+                        </label>
+                        <input type="text"
+                               th:field="*{nombre}"
+                               required
+                               placeholder="Ingrese el nombre completo"
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                    <!-- Nombre DEL CIENTIFICO -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            Nombre del cientifico
+                        </label>
+                        <input type="text"
+                               th:field="*{nombre_cientifico}"
+                               required
+                               placeholder="Ingrese el nombre completo del cientifico"
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                    <!-- ESPECIE -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            ESPECIE
+                        </label>
+                        <input type="text"
+                               th:field="*{especie}"
+                               required
+                               placeholder="CC, TI, CE..."
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                    <!-- CANTIDAD -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            Cantidad
+                        </label>
+                        <input type="text"
+                               th:field="*{cantidad}"
+                               required
+                               placeholder="ingrese la cantidad"
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                    <!-- Precio -->
+                    <div>
+                        <label class="block mb-2 font-bold text-[#0B3B51]">
+                            Precio
+                        </label>
+                        <input type="text"
+                               th:field="*{precio}"
+                               required
+                               placeholder="precio de la planta"
+                               class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 outline-none transition focus:border-[#85C88A] focus:ring-4 focus:ring-[#85C88A]/20">
+                    </div>
+
+                </div>
+
+                <!-- BOTONES -->
+                <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 pt-6 border-t border-gray-100">
+
+                    <a th:href="@{/view/usuarios}"
+                       class="btn-custom btn-verde justify-center">
+                        ← Volver
+                    </a>
+
+                    <button type="submit"
+                            class="btn-custom btn-principal justify-center">
+                        💾 Guardar planta
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
